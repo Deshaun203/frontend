@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Outfit, Poppins } from "next/font/google";
+import { Geist, Geist_Mono, Outfit, Poppins, Ubuntu } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 
@@ -17,6 +17,12 @@ const poppins = Poppins({
 const outfit = Outfit({
   weight: ["400","700"],
   variable: "--font-outfit",
+  subsets: ["latin"],
+});
+
+const ubuntu = Ubuntu({
+  weight: ["400","700"],
+  variable: "--font-ubuntu",
   subsets: ["latin"],
 });
 
@@ -38,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${outfit.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${outfit.variable} ${ubuntu.variable} antialiased`}
       >
         {children}
          <Toaster/>

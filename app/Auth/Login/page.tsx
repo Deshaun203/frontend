@@ -116,8 +116,8 @@ const LoginPage = () => {
 
   const ring = (err?: unknown) =>
     err
-      ? "border-red-500 focus-visible:ring-red-500"
-      : "border-gray-700 focus-visible:ring-blue-500";
+      ? "border-red-500 focus-visible:ring-red-500 text-slate-900"
+      : "border-gray-700 focus-visible:ring-blue-500 text-slate-900";
 
   return (
     <div className="flex flex-col items-center w-full inset-0 min-h-[100svh] h-screen overflow-hidden bg-[#0d1425f6]">
@@ -149,7 +149,7 @@ const LoginPage = () => {
           </h3>
 
           {/* Form Body */}
-          <div className="w-full h-full items-center justify-center flex px-2 mt-1">
+          <div className="w-full h-full items-center  justify-center flex px-2 mt-1">
             <form
               id={formId}
               autoComplete="on"
@@ -175,7 +175,7 @@ const LoginPage = () => {
                 placeholder="example@gmail.com"
                 aria-invalid={!!errors.email}
                 aria-describedby="email-error"
-                className={`w-full mb-4 p-3 font-inter rounded-md border bg-slate-200 h-9 md:h-10 focus:outline-none ${ring(
+                className={`w-full mb-4 p-3 font-inter rounded-md border text-black bg-slate-200 h-9 md:h-10 focus:outline-none ${ring(
                   errors.email
                 )}`}
               />
@@ -211,7 +211,7 @@ const LoginPage = () => {
                   className="absolute inset-y-0 right-3 my-auto h-fit flex items-center"
                   aria-label={showPw ? "Hide password" : "Show password"}
                 >
-                  {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPw ? <EyeOff color="#0f172b" size={18} /> : <Eye color="#0f172b" size={18} />}
                 </button>
               </div>
               <p id="password-error" className="sr-only">
@@ -231,7 +231,7 @@ const LoginPage = () => {
                 <a
                   href="#"
                   onClick={onForgotPassword}
-                  className="font-outfit font-light text-sm underline hover:text-gray-700 transition-colors duration-200"
+                  className="font-outfit font-light text-sm underline text-gray-800 hover:text-gray-600 transition-colors duration-200"
                 >
                   Forgot Password?
                 </a>

@@ -78,10 +78,10 @@ export function TeamSwitcher({
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />
-              <div className="flex items-center px-3 py-2 gap-2">
+              <div  className="flex items-center px-3 py-2 gap-2">
                 <div className="border h-7 w-7 flex items-center border-gray-300/30 justify-center rounded-lg"><BrickWallShield size={19} /></div>
                  <div className="text-muted-foreground font-sans text-nowrap text-sm">Audit Mode</div>
-                 <div className="flex items-center ml-auto pr-4 justify-end"><Switch/></div>
+                 <div className="flex items-center ml-auto pr-4 justify-end"><Switch disabled={true}/></div>
               </div>
               
           </DropdownMenuContent>

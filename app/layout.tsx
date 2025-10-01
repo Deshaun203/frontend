@@ -1,7 +1,7 @@
 import '@ant-design/v5-patch-for-react-19';
 import type { Metadata } from "next";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { Geist, Geist_Mono, Inter, Outfit, Poppins, Ubuntu } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Outfit, Poppins, Roboto, Ubuntu } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 
@@ -9,6 +9,12 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+});
+
 
 const poppins = Poppins({
   weight: ["400","700"],
@@ -56,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${outfit.variable} ${ubuntu.variable}${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${outfit.variable} ${ubuntu.variable}${inter.variable}${roboto.variable} antialiased`}
       >
        
         <AntdRegistry>{children}</AntdRegistry>

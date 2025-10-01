@@ -14,6 +14,8 @@ import {
   TreePine,
 } from "lucide-react"
 
+import { usePathname } from "next/navigation"
+
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
@@ -25,30 +27,38 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { supabase } from "@/lib/supabase/supabaseClient"
 
-// This is sample data.
+
+
+
+//get user profile
+
+const { data: { user } } = await supabase.auth.getUser();
+const email      = user?.email ?? "nepguest@daemon.com";
+const full_name  = user?.user_metadata?.full_name ;
+const jobtitle   = user?.user_metadata?.job_title ?? "Guest User";
+const avatar    = buildAvatarUrl(full_name ?? "User");
+
+
+//function to build avatar url
+function buildAvatarUrl(fullName: string, size = 128) {
+  const name = encodeURIComponent((fullName || "User").trim());
+  return `https://ui-avatars.com/api/?name=${name}&background=random&size=${size}&bold=true`;
+}
+
+
+
 const data = {
   user: {
-    name: "Database Manager",
-    email: "deshaun06.thomas@gmail.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: jobtitle,
+    email: email,
+    avatar: avatar,
   },
   teams: [
-    {
-      name: "P1405",
-      logo: Factory,
-      plan: "Public Sector",
-    },
-    {
-      name: "P1405A",
-      logo: TreePine,
-      plan: "Community Sector",
-    },
-    {
-      name: "P1405B",
-      logo: Command,
-      plan: "Private Sector",
-    },
+    { name: "P1405",  logo: Factory,  plan: "Public Sector" },
+    { name: "P1405A", logo: TreePine, plan: "Community Sector" },
+    { name: "P1405B", logo: Command,  plan: "Private Sector" },
   ],
   navMain: [
     {
@@ -56,38 +66,15 @@ const data = {
       url: "#",
       icon: SquareTerminal,
       isActive: true,
-      items: [
-        {
-          title: "Inventory",
-          url: "#",
-        },
-        {
-          title: "Machinery",
-          url: "#",
-        },
-        {
-          title: "Transportation",
-          url: "#",
-        },
-      ],
     },
     {
       title: "Gateway",
       url: "#",
       icon: Bot,
       items: [
-        {
-          title: "Deductions",
-          url: "#",
-        },
-        {
-          title: "Timesheet Hours",
-          url: "#",
-        },
-        {
-          title: "",
-          url: "#",
-        },
+        { title: "Deductions",     url: "#" },
+        { title: "Timesheet Hours",url: "#" },
+        { title: "",               url: "#" },
       ],
     },
     {
@@ -95,22 +82,10 @@ const data = {
       url: "#",
       icon: BookOpen,
       items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
+        { title: "Introduction", url: "#" },
+        { title: "Get Started",  url: "#" },
+        { title: "Tutorials",    url: "#" },
+        { title: "Changelog",    url: "#" },
       ],
     },
     {
@@ -118,74 +93,48 @@ const data = {
       url: "#",
       icon: Settings2,
       items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
+        { title: "General", url: "#" },
+        { title: "Team",    url: "#" },
+        { title: "Billing", url: "#" },
+        { title: "Limits",  url: "#" },
       ],
     },
   ],
   projects: [
-    {
-      name: "Dashboard",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Forms",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Report Builder",
-      url: "#",
-      icon: Map,
-    },
-     {
-      name: "Reminders",
-      url: "#",
-      icon: Map,
-    },
-    {
-      name: "Calender",
-      url: "#",
-      icon: Map,
-    },
-    {
-      name: "",
-      url: "#",
-      icon: Map,
-    },
+    { name: "Dashboard",  url: "#", icon: Frame },
+    { name: "Forms",      url: "#", icon: PieChart },
+    { name: "Report Builder", url: "#", icon: Map },
+    { name: "Reminders",  url: "#", icon: Map },
+    { name: "Calender",   url: "#", icon: Map },
+    { name: "",           url: "#", icon: Map },
   ],
-  
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname()
+
+  const onDashboard =
+    (pathname ?? "").toLowerCase() === "/dashboard"
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        {onDashboard ? (
+          <TeamSwitcher teams={data.teams} />
+        ) : (
+          <div className="p-4 font-medium">Daemon Systems</div>
+        )}
       </SidebarHeader>
+
       <SidebarContent>
-         <NavProjects projects={data.projects} />
+        <NavProjects projects={data.projects} />
         <NavMain items={data.navMain} />
-       
       </SidebarContent>
+
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
+
       <SidebarRail />
     </Sidebar>
   )
